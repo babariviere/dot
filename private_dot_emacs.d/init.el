@@ -3,7 +3,7 @@
 
 (require 'package)
 
-;; (guix-emacs-autoload-packages)
+(load-file (expand-file-name "elpaca.el" user-emacs-directory))
 
 (setq custom--inhibit-theme-enable nil)
 

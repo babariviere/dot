@@ -4,3 +4,7 @@
 	signingKey = 39035CC0B75D1142
 [commit]
 	gpgSign = true
+[alias]
+	s = status --branch --short
+	pf = push --force-with-lease
+	co = checkout

@@ -31,7 +31,6 @@
 ;;; Code:
 
 (require 'use-package)
-(require 'org)
 
 ;;
 ;; Functions
@@ -218,7 +217,20 @@
   :config
   (require 'org-tempo)
   (add-to-list 'org-structure-template-alist '("n" . "note"))
-  (require 'htmlize)
+  (use-package htmlize)
+
+  ;; Define org todo keywords
+  (setq org-todo-keywords
+        '((sequence "NEXT(n!)" "TODO(t@/!)" "WAITING(w@/!)"
+                    "SOMEDAY(s@/!)" "DELEGATED(D@/!)" "PROJ(p)"
+                    "|" "DONE(d)" "CANCELLED(c@)")
+          (sequence "REPEAT(r)" "|" "DONE(d!)")))
+
+  (define-key org-mode-map (kbd "C-c y") #'amber-org/yank-id-link)
+  (with-eval-after-load 'org-agenda
+    (define-key org-agenda-mode-map (kbd "C-c y") #'amber-org/yank-id-link))
+
+  (add-to-list 'org-modules 'org-habit t)
   :general
   ;; ('normal org-mode-map
   ;; 		   "RET" #'amber-org/dwin-at-point
@@ -232,25 +244,16 @@
 	"ny" '(org-roam-dailies-goto-yesterday :wk "yesterday's note")
     "ng" '(org-roam-dailies-goto-date :wk "goto date's note")))
 
-;; Define org todo keywords
-(setq org-todo-keywords
- '((sequence "NEXT(n!)" "TODO(t@/!)" "WAITING(w@/!)"
-             "SOMEDAY(s@/!)" "DELEGATED(D@/!)" "PROJ(p)"
-             "|" "DONE(d)" "CANCELLED(c@)")
-   (sequence "REPEAT(r)" "|" "DONE(d!)")))
-
-(define-key org-mode-map (kbd "C-c y") #'amber-org/yank-id-link)
-(with-eval-after-load 'org-agenda
-  (define-key org-agenda-mode-map (kbd "C-c y") #'amber-org/yank-id-link))
-
-(add-to-list 'org-modules 'org-habit t)
-
-(require 'org-capture)
+(use-package org-capture
+  :ensure nil
+  :after org)
 
 (use-package org-protocol
+  :ensure nil
   :after org)
 
 (use-package org-agenda
+  :ensure nil
   :after org
   :demand t
   ;; :hook (after-init . amber-org/agenda-view)
@@ -299,6 +302,7 @@
 
 ;; TODO: use hydra for refiling as in http://www.howardism.org/Technical/Emacs/getting-more-boxes-done.html
 (use-package org-refile
+  :ensure nil
   :after org
   :custom
   (org-refile-targets '((nil :maxlevel . 3)
@@ -313,6 +317,7 @@
   )
 
 (use-package org-clock
+  :ensure nil
   :after org
   :custom
   (org-clock-out-remove-zero-time-clocks t))
@@ -320,6 +325,7 @@
 ;; Allows for trigger and blocker
 ;; See: https://www.nongnu.org/org-edna-el/
 (use-package org-edna
+  :ensure nil
   :after org
   :hook (org-mode . org-edna-mode))
 
@@ -330,39 +336,16 @@
   (org-appear-autosubmarkers t)
   (org-appear-autoemphasis t))
 
-(with-eval-after-load 'org
-  (require 'ox-latex)
-  (require 'verb)
+(use-package verb
+  :after org
+  :config
+  (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 
-  (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
-  (add-to-list 'org-latex-minted-langs '(verb "Text"))
-  (add-to-list 'org-latex-minted-langs '(ob-verb-reponse "HTTP"))
+(setq org-plantuml-exec-mode 'plantuml)
 
-  (add-to-list 'org-latex-classes
-               '("org-plain-latex"
-                 "\\documentclass{article}
-[NO-DEFAULT-PACKAGES]
-[PACKAGES]
-[EXTRA]"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
-  (setq org-latex-listings 'minted
-        org-latex-packages-alist '(("" "minted"))
-        org-latex-pdf-process
-        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-
-  (setq org-plantuml-exec-mode 'plantuml)
-
-
-  (setq org-export-with-broken-links t
-        org-export-with-sub-superscripts '{}
-        org-use-sub-superscripts '{}))
-
+(setq org-export-with-broken-links t
+      org-export-with-sub-superscripts '{}
+      org-use-sub-superscripts '{})
 
 (provide 'amber-org)
 

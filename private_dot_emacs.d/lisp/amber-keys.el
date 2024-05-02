@@ -5,10 +5,8 @@
 ;;;
 ;;; Code:
 
-(require 'use-package)
-(require 'diminish)
-
 (use-package general
+  :ensure (:wait t)
   :config
   (general-create-definer amber/leader-keys
     ;; :states '(normal insert motion visual emacs)

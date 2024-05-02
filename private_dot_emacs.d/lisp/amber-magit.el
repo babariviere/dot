@@ -1,6 +1,9 @@
 (require 'use-package)
 
+(use-package transient)
+
 (use-package magit
+  :after transient
   :general
   (amber/leader-keys
     "g" '(:ignore t :wk "git")

@@ -33,6 +33,7 @@
 (require 'use-package)
 
 (use-package sql
+  :ensure nil
   :general
   (amber/leader-keys sql-mode-map
     "C-e" '(:ignore t :wk "eval")

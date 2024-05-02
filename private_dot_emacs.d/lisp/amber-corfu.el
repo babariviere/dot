@@ -17,13 +17,16 @@
       (newline))))
 
 (use-package corfu
+  :ensure (corfu :files (:defaults "extensions/*"))
   :custom
   (corfu-cycle t)
   (corfu-auto t)
   (corfu-on-exact-match nil)
   (corfu-preselect 'prompt)
   (corfu-preview-current nil)
-  :hook ((meow-insert-exit . amber-corfu/on-meow-exit))
+  :hook
+  ((meow-insert-exit . amber-corfu/on-meow-exit)
+   (corfu-mode . corfu-popupinfo-mode))
   :bind
   (:map corfu-map
     ("TAB" . corfu-next)
@@ -43,22 +46,19 @@
         tab-always-indent 'complete)
       (corfu-mode))))
 
-(use-package corfu-popupinfo
-  :hook (corfu-mode . corfu-popupinfo-mode))
+(use-package cape
+  :config
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dict)
+  (add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
 
-(require 'cape)
+  ;; Silence the pcomplete capf, no errors or messages!
+  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
 
-(add-to-list 'completion-at-point-functions #'cape-file)
-(add-to-list 'completion-at-point-functions #'cape-dict)
-(add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
-(add-to-list 'completion-at-point-functions #'cape-dabbrev)
-
-;; Silence the pcomplete capf, no errors or messages!
-(advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
-
-;; Ensure that pcomplete does not write to the buffer
-;; and behaves as a pure `completion-at-point-function'.
-(advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify)
+  ;; Ensure that pcomplete does not write to the buffer
+  ;; and behaves as a pure `completion-at-point-function'.
+  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify))
 
 (use-package kind-icon
   :if (display-graphic-p)
@@ -69,6 +69,6 @@
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-(require 'pcmpl-args)
+(use-package pcmpl-args)
 
 (provide 'amber-corfu)

@@ -39,6 +39,7 @@
 			"C-f" 'vertico-exit))
 
 (use-package savehist
+  :ensure nil
   :init
   (savehist-mode 1))
 

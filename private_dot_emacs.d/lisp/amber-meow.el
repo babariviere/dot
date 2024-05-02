@@ -24,8 +24,6 @@
 
 ;;; Code:
 
-(require 'meow)
-
 (defun amber-meow/qwerty-setup ()
   "Setup meow keys for qwerty layout."
   (interactive)
@@ -201,9 +199,11 @@
     '("'" . repeat)
     '("<escape>" . ignore)))
 
-(amber-meow/colemak-dh-setup)
-;; (meow-setup-indicator)
-(meow-global-mode 1)
+(use-package meow
+  :config
+  (amber-meow/colemak-dh-setup)
+  ;; (meow-setup-indicator)
+  (meow-global-mode 1))
 
 (provide 'amber-meow)
 ;;; amber-meow.el ends here

@@ -25,6 +25,7 @@
 ;;; Code:
 
 (use-package emacs
+  :ensure nil
   :hook
   ((prog-mode . electric-pair-mode)))
 

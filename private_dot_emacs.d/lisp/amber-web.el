@@ -39,14 +39,6 @@
 
 (use-package web-mode
   :mode ("\\.gohtml\\'" "\\.html?\\'")
-  :config
-  (setq web-mode-engines-alist
-    '(("svelte" . "\\.svelte\\'"))))
-
-(use-package emmet-mode
-  :hook (web-mode . emmet-mode))
-
-(use-package web-mode
   :init
   ;; Svelte
   (define-derived-mode amber-svelte-mode web-mode "Svelte+"
@@ -54,7 +46,14 @@
   (add-to-list 'auto-mode-alist '("\\.svelte\\'" . amber-svelte-mode))
   (add-hook 'amber-svelte-mode-hook #'eglot-ensure)
   (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs '(amber-svelte-mode . ("svelteserver" "--stdio")))))
+    (add-to-list 'eglot-server-programs '(amber-svelte-mode . ("svelteserver" "--stdio"))))
+
+  :config
+  (setq web-mode-engines-alist
+        '(("svelte" . "\\.svelte\\'"))))
+
+(use-package emmet-mode
+  :hook (web-mode . emmet-mode))
 
 (provide 'amber-web)
 ;;; amber-web.el ends here

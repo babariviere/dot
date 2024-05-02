@@ -55,7 +55,10 @@
             #'tempel-expand
             #'cape-file))))
 
+(use-package jsonrpc)
+
 (use-package eglot
+  :after jsonrpc
   :hook
   ((eglot-managed-mode . amber-eglot/eldoc)
    (eglot-managed-mode . amber-eglot/capf))

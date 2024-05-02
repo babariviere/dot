@@ -1,9 +1,16 @@
 ;; Init configuration
 ;;; Code:
 
-(require 'package)
-
+(setq package-enable-at-startup nil)
 (load-file (expand-file-name "elpaca.el" user-emacs-directory))
+(setq use-package-always-ensure t)
+
+(elpaca elpaca-use-package
+  (elpaca-use-package-mode))
+
+(use-package gcmh
+  :config
+  (gcmh-mode 1))
 
 (setq custom--inhibit-theme-enable nil)
 
@@ -61,6 +68,8 @@
       user-full-name "Bastien Riviere"
       user-mail-address "me@babariviere.com")
 
+(use-package diminish)
+
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'amber-keys)             ; must be loaded first
 
@@ -81,7 +90,7 @@
 (require 'amber-format)
 
 (require 'amber-cc)
-(require 'amber-common-lisp)
+;; (require 'amber-common-lisp)
 (require 'amber-csharp)
 (require 'amber-data)
 (require 'amber-docker)
@@ -90,10 +99,10 @@
 (require 'amber-elixir)
 (require 'amber-fish)
 (require 'amber-go)
-(require 'amber-haskell)
+;; (require 'amber-haskell)
 (require 'amber-org)
 ;; (require 'amber-notes)
-(require 'amber-nix)
+;; (require 'amber-nix)
 (require 'amber-python)
 (require 'amber-rust)
 ;; (require 'amber-scheme)
@@ -102,9 +111,6 @@
 (require 'amber-ts)
 (require 'amber-web)
 ;; (require 'amber-elfeed)
-
-(require 'use-package)
-(require 'diminish)
 
 (use-package doom-modeline
   :disabled
@@ -168,6 +174,7 @@ ARGS are the arguments passed to `browse-url`."
    ("<C-S-return>" . crux-smart-open-line-above)))
 
 (use-package uniquify
+  :ensure nil
   :custom
   (uniquify-buffer-name-style 'forward)
   (uniquify-separator "/"))

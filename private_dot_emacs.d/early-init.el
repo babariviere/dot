@@ -36,8 +36,6 @@
 (setq create-lockfiles nil)
 
 (setq read-process-output-max (* 1024 1024))
-(require 'gcmh)
-(gcmh-mode 1)
 
 (setq-default fringes-outside-margins t)
 (setq-default left-margin-width 1)

@@ -1,0 +1,6 @@
+[user]
+	email = me@babariviere.com
+	name = Bastien Riviere
+	signingKey = 39035CC0B75D1142
+[commit]
+	gpgSign = true

@@ -29,4 +29,10 @@ export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 gpgconf --launch gpg-agent
 gpg-connect-agent updatestartuptty /bye >/dev/null
 
-eval "$(starship init bash)"
+if [ -x "$(command -v starship)" ]; then
+    eval "$(starship init bash)"
+fi
+
+if [ -x "$(command -v zoxide)" ]; then
+    eval "$(zoxide init bash)"
+fi

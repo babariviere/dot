@@ -8,3 +8,15 @@
 	s = status --branch --short
 	pf = push --force-with-lease
 	co = checkout
+[pull]
+	rebase = true
+	autoSetupRemote = true
+[github]
+	user = babariviere
+[core]
+	autocrlf = false
+	eof = lf
+[rebase]
+	autoStash = true
+[merge]
+	conflictStyle = zdiff3

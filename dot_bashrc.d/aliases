@@ -1,0 +1,6 @@
+# -*- mode: Shell-script; sh_shell: "bash"; -*-
+
+alias k="kubectl"
+alias cat="bat -pp"
+alias dup="docker compose up"
+alias ddn="docker compose down"
